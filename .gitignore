@@ -1,0 +1,2 @@
+# No secrets — settings.json is a template with placeholder
+# Real tokens go in ~/.claude/settings.json or ~/.claude.json (not in this repo)

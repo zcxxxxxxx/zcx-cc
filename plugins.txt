@@ -1,0 +1,8 @@
+# Claude Code plugins — install on a new machine with:
+#   xargs -I {} claude plugin install "{}" < plugins.txt
+
+academic-research-skills
+claude-md-management
+frontend-design
+skill-creator
+superpowers
