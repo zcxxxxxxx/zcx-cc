@@ -1,0 +1,32 @@
+\section{Introduction}
+\label{sec:intro}
+
+Partial differential equations (PDEs)
+are fundamental to modeling physical phenomena across fluid dynamics,
+solid mechanics, and thermodynamics.
+Solving these PDEs is a critical step in understanding physical mechanisms and
+guiding engineering design.
+Traditional numerical methods such as finite difference, finite element,
+and finite volume methods are widely used but require mesh generation and
+iterative solvers that incur significant computational cost,
+especially when boundary conditions, material parameters,
+or geometric configurations change.
+
+In recent years, physics-informed neural networks (PINNs)
+have emerged as a mesh-free alternative for solving PDEs by embedding the
+differential operator and boundary conditions directly into the
+training objective~\cite{raissi2019pinn}.
+However, standard PINNs are typically trained for a single set of physical
+parameters; any change to the parameters requires retraining from scratch.
+Transfer learning offers a way to mitigate this cost by initializing the target
+model with weights from a pretrained source model~\cite{wang2023expert}.
+
+Parameter-efficient fine-tuning (PEFT)
+methods such as LoRA~\cite{hu2022lora} and Adapter~\cite{houlsby2019adapter}
+have
+shown
+promise in NLP for adapting large models with minimal parameter changes.
+Whether these techniques can effectively adapt PINNs across PDE parameter
+shifts, where the loss landscape involves higher-order derivatives
+through automatic differentiation,
+remains an open question~\cite{biderman2024lora}.

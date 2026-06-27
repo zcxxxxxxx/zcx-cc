@@ -1,0 +1,33 @@
+{
+  "skill_name": "latex-sentence-wrap",
+  "evals": [
+    {
+      "id": 1,
+      "name": "english-paragraph-wrap",
+      "prompt": "I have a LaTeX manuscript with paragraphs that are single long lines, making it hard to diff in git. Wrap each sentence onto its own line and keep lines under 80 characters. The file is at tests/input/long_paragraphs.tex.",
+      "expected_output": "Each sentence on its own line, no text lines over 80 chars, math/citations intact, LaTeX still compiles.",
+      "files": ["tests/input/long_paragraphs.tex"]
+    },
+    {
+      "id": 2,
+      "name": "chinese-english-mixed",
+      "prompt": "My Chinese LaTeX paper has paragraphs with mixed Chinese and English text, and the line breaks are all over the place. Can you fix them to sentence-per-line with 80-char limit? The file is at tests/input/chinese_mixed.tex.",
+      "expected_output": "Chinese sentences split at 。！？, commas/colons used for phrase breaks within 80 chars, em-dashes not split, CJK words intact.",
+      "files": ["tests/input/chinese_mixed.tex"]
+    },
+    {
+      "id": 3,
+      "name": "math-and-environments",
+      "prompt": "I need to format this .tex file with align environments, inline math, and long citations. Apply sentence-per-line wrapping but don't break the math or LaTeX commands. File at tests/input/math_environments.tex.",
+      "expected_output": "Math environments (align, equation) preserved verbatim, inline math intact, citations not split, text paragraphs wrapped to 80 chars.",
+      "files": ["tests/input/math_environments.tex"]
+    },
+    {
+      "id": 4,
+      "name": "idempotency",
+      "prompt": "The file tests/input/already_wrapped.tex has already been formatted with sentence-per-line. Run the wrapping tool on it again and verify the output is unchanged (no double-wrapping issues).",
+      "expected_output": "No changes to the file after re-running — the tool is idempotent on already-wrapped content.",
+      "files": ["tests/input/already_wrapped.tex"]
+    }
+  ]
+}

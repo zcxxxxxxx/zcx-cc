@@ -1,0 +1,28 @@
+\section{引言}
+\label{sec:intro}
+
+大量物理现象，如流体动力学中的激波形成、湍流能量级串以及固体力学中的应力集中与断裂扩展，
+均通过偏微分方程（partial differential equations, PDEs）进行数学建模~\cite{evans2010pde}。
+求解这些 PDEs 是理解底层物理机制、指导工程设计和预测系统行为的关键步骤，因而构成了计算数学、
+物理学和力学中的重要任务之一~\cite{leveque2007finite}。
+
+近年来，AI for PDEs 作为一类利用深度学习求解 PDEs 的算法体系受到广泛关注：
+Wang et al.\ (2024) 综述了计算力学中的 AI for PDEs 方法~\cite{wang2024aipdesurvey}；
+Yizheng et al.\ (2024) 系统梳理了固体力学领域的相关进展~\cite{wang2024aisolid}。
+已有工作大致可归纳为三条技术路线。
+第一种是 Raissi et al.\ (2019) 提出的物理信息神经网络（PINNs）~\cite{raissi2019pinn}，
+其核心思想并非简单地将神经网络用作函数逼近器，
+而是将微分算子、初始条件与边界条件共同嵌入优化目标，使网络在连续坐标域上同时实现解场表示与物理一致性约束。
+第二种是数据驱动的算子学习，以 Lu et al.\ 提出的 DeepONet~\cite{lu2021deeponet} 和 Li et al.\ 提出的
+Fourier
+Neural Operator (FNO)~\cite{li2021fno} 为代表。
+第三种是结合数据与物理的混合方法，如 Li et al.\ 提出的物理信息神经算子（PINO）
+~\cite{li2024pino} 和 Eshaghi et al.\ 提出的变分物理信息神经算子（VINO）~\cite{eshaghi2025vino}。
+
+然而，PINNs 的一个实际约束在于：它们通常仅求解特定物理参数下的特定问题，边界条件、
+材料分布或物理系数的任何变化都需要重新训练——Yang et al.\ (2023) 通过上下文学习探索了单次适应，
+Desai et al.\ (2021) 提出一步迁移学习策略，
+Gao et al.\ (2022) 则利用 SVD 分解压缩 PINN 参数量以加速重训练；
+Liu et al.\ (2023) 提出了自适应迁移学习方法 AtPINN，
+通过训练过程中自适应更新 PDE 参数以处理大幅参数偏移~
+\cite{yang2023incontext,desai2021oneshot,gao2022svdpinns,liu2023atpinn}。
