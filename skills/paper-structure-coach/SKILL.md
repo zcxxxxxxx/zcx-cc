@@ -4,8 +4,14 @@ description: |
   Guide academic paper section planning based on IMRaD structure and SCI publication
   standards. Activate when: drafting a new paper, reviewing manuscript structure,
   expanding a specific section, or organizing experimental data into results sections.
+  Also use this skill whenever ARS academic-research-skills paper writing or review
+  skills (ars-full, ars-revision, ars-plan, ars-outline, ars-lit-review,
+  sci-paper-reviewer) are invoked — this skill provides the structural coaching
+  foundation they rely on. Make sure to use this skill whenever the user mentions
+  paper structure, IMRaD, manuscript review, SCI submission, or is organizing a draft,
+  even if they don't explicitly ask for a "structure review."
   Do NOT use for: reference formatting, image resolution adjustment, or grammar proofreading.
-allowed-tools: Read, Grep, Glob, Write
+allowed-tools: Read, Grep, Glob, Write, Edit
 ---
 
 ## Activation
@@ -24,8 +30,27 @@ Use when:
 |----------|--------|
 | Drafting from scratch | Complete IMRaD outline with core arguments and expected evidence per section |
 | Reviewing existing draft | Section-by-section diagnostic: structural defects, logic breaks, SCI deviations |
-| Expanding a single section | Academic writing template with sub-structure conventions |
+| Expanding a single section | Read the relevant reference file, then apply its conventions to the section |
 | Final review of first draft | Delegate to `/paper-review-checklist` for item-by-item review |
+
+## Section Routing
+
+When reviewing or drafting a specific section, read the corresponding reference file for detailed conventions:
+
+| Section | Reference file | When to load |
+|---------|---------------|-------------|
+| Abstract | `references/abstract.md` | Reviewing or drafting abstract |
+| Introduction (incl. Background) | `references/introduction.md` | Reviewing Move 1–3 structure, citation style, gap analysis |
+| Methods | `references/methods.md` | Checking reproducibility, verifying section completeness |
+| Results | `references/results.md` | Reviewing results presentation, figure references, writing style |
+| Discussion | `references/discussion.md` | Interpreting findings, comparative analysis, overclaim check |
+| Figures & Tables | `references/figures-tables.md` | Placement conventions, caption format, data presentation rules |
+| Conclusion | `references/conclusion.md` | Distilling scientific contributions |
+| JFM conventions | `references/jfm-conventions.md` | Targeting JFM: British English, notation macros (`\Rey`, `\Pran`), sentence case headings, author-year citations |
+| JCP conventions | `references/jcp-conventions.md` | Targeting JCP: numbered sections, Vancouver refs `[1]`, code/data availability, required declarations |
+| Fluid mech. common | `references/fluid-mech-common.md` | General fluid mechanics: grid convergence/V&V, dimensionless parameters, flow visualization, symbol consistency |
+
+> Load the reference file **only** when working on that section. The general rules below (Overclaim Check, Defensive Language Check) apply to all sections automatically.
 
 ## Overclaim Check — 适用于全文
 
@@ -61,101 +86,47 @@ Use when:
 - [ ] 同一语义是否用不同词语重复了两遍（如"容量裕度压缩 + 信息容量不足"）？
 
 ### Check: 展望与结论边界
-- [ ] 未来展望从§5.2末尾"若假说成立"开始做了限定，还是直接断言了必定成立？
+- [ ] 未来展望是否以"若假说成立"等条件限定语开头，还是直接断言了必定成立？
 - [ ] 高维外推是否标注为推测（"将...跃迁为"→"可望...获得"）？
 
-## IMRaD Section Conventions
+## Defensive Language Check — 防御性语句检测
 
-### Abstract
+防御性语句指不携带信息量、仅作为"安全缓冲"前置在句首的废话。核心原则：**每句话应从实质内容开始**，而非从防御性前缀开始。
 
-Follow Background–Gap–Method–Results–Significance flow. Each sentence serves one role. Abstract must be a **single paragraph** (no line breaks, no sectioning). No citations, no undefined abbreviations, no emotional modifiers.
+### 常见防御性语句分类
 
-| ❌ Avoid | ✅ Instead write |
-|---------|----------------|
-| "novel approach" | "approach" |
-| "groundbreaking results" | "the results indicate that..." |
+| 类别 | 防御性前缀 | 直接改写 |
+|------|-----------|---------|
+| **空洞引导** | "值得注意的是…"、"需要指出的是…"、"值得一提的是…" | → 直接陈述事实 |
+| | "It is worth noting that…"、"It should be noted that…"、"It is important to mention that…" | → (direct statement) |
+| | "It is interesting to note that…"、"It should be emphasized that…" | → (direct statement) |
+| **不言自明** | "众所周知…"、"As is well known…"、"It is obvious that…"、"Of course…" | → 如果真的人尽皆知就不写；如果需要写，直接给出引用 |
+| | "不难发现…"、"显而易见…"、"Naturally…" | → 直接陈述观察结果 |
+| **弱化填充** | "It seems that…"、"It appears that…"、"It could be argued that…" | → 有证据用"表明"，无证据不写 |
+| | "某种程度上…"、"在一定程度上…" | → 改为具体量化（"在 XX 条件下"） |
+| **元评论** | "需要强调的是…"、"值得强调的是…" | → 直接写重点 |
+| | "值得一提的是…" | → 直接写事实 |
+| | "This section discusses…"、"As mentioned above…" | → 除非必要导航，否则删除 |
+| **过度自谦** | "据我们所知…"、"To the best of our knowledge…" | → 首次提出新结果时用一次足矣，不必每段开头都用 |
+| | "据我们所查…"、"As far as we know…" | → 同上一行 |
 
-### Background (Move 1 of Introduction)
+### 全文规则
 
-Background 只解释核心定义和必要上下文，不要展开方程推导或算法细节。需推导的内容放到 Methods 节。
+1. **Abstract 零容忍**：摘要不允许出现任何防御性前缀，每句必须以实质内容开头
+2. **Results 节全删**：结果部分不应有任何引导语，"Fig. X shows that…" 之外的 lead-in 一律删除
+3. **Discussion 节区分**：Discussion 中需要区分**真正的谨慎限定**（如"这些结果提示但尚未证明"）和**防御性废话**（"It is important to note that our results suggest…"）。前者保留，后者删除
+4. **全文检索**：对稿件执行一次全文搜索，定位所有以"It is…"、"It should…"、"It can…"、"It is important to…"、"It is interesting to…"、"It may…"、"It might…"、"It must be…"、"需要指出"、"值得注意"、"不难发现"、"需要强调"、"需要说明"开头的句子，逐一判断是否为防御性语句
 
-| ❌ Avoid | ✅ Instead write |
-|---------|----------------|
-| 大段方程推导 | "PINNs embed PDE residual constraints into the training objective [6]" |
-| 详细解释某方法的数学原理 | "Operator learning directly learns mappings between function spaces [7]" |
+### 判断标准
 
-### Introduction (Move 1–3)
+一段文字的开头是否属于防御性语句，问两个问题：
+- [ ] 去掉前 5–10 个词后，剩余句子的信息是否完整？
+- [ ] 这 5–10 个词是否仅表达了"我要说话"而没有增加语义？
 
-```
-Move 1: Establishing a territory (Background)
-  Step A: Claim centrality — why this field matters (1–2句, 不引文献)
-  Step B: Review prior contributions — 每篇前人工作独立写出贡献
-
-Move 2: Establishing a niche
-  Step A: Indicate a gap — focus on "a concrete solvable problem"
-  Step B: Raise a question / continue a tradition
-
-Move 3: Occupying the niche
-  Step A: Outline purpose — "This paper proposes…"
-  Step B: Announce principal findings
-  Step C: State structure — paper organization (optional)
-```
-
-**Key rule — 每篇前人工作必须独立写出具体贡献**：
-
-只要出现对前人工作的引用，就必须使用 "**Author** → **verb** → **what they contributed**" 格式。**禁止将多篇文献捆绑为一个引用组**，如 "第一类路径关注 PINN transfer learning [8, 15, 18–21, 32]"。
-
-| ❌ Avoid | ✅ Instead write |
-|---------|----------------|
-| "物理信息神经网络（PINNs）[6]" | "Raissi et al. (2019) 提出了物理信息神经网络（PINNs），将 PDE 残差约束嵌入网络训练目标" |
-| "算子学习 [7,8]" | "Lu et al. (2021) 提出了 DeepONet，直接从数据学习函数空间之间的映射。Li et al. (2020) 提出了 Fourier Neural Operator (FNO)，在傅里叶域参数化积分核实现 PDE 解算子的学习" |
-| "第一类路径关注 PINN transfer learning [8, 15, 18–21, 32]" | "Goswami et al. (2020) 通过全参数微调将预训练 PINN 迁移至相场断裂问题；Chen et al. (2021) 在气动 PDE 上验证了全参数微调的有效性；Xu et al. (2023) 提出了面向工程结构的 PINN 迁移学习方法" |
-
-**Common issues**: 引用组未拆分、Background 混入推导细节、Gap 分析仅停留在现象层、Move 1→Move 2 缺过渡、Move 3 未回应 gap。
-
-### Methods
-
-Core principle: **reproducibility**.
-1. Problem formalization (governing equations, BCs, ICs, loss function)
-2. Method description (mathematical framework, design choices justified with citations)
-3. Experimental configuration (data, hyperparameters, metrics, software/hardware)
-
-Constraints: cite rather than rewrite published method descriptions; keep symbols consistent; no result statements.
-
-### Results
-
-Present **what was found**, not what it means (that goes in Discussion).
-1. Baseline verification (compare with reference/ground truth)
-2. Method comparison (accuracy, convergence, resource cost)
-3. Ablation/sensitivity (optional, with multi-seed statistics)
-
-Active voice preferred: "We calculated…" not "Calculations were performed…".
-Remove hollow lead-ins: "It is worth noting that…" → (direct statement).
-Grammar: "Fig. 2 shows…" (present), "The model achieved…" (past).
-
-### Discussion
-
-Answer "So what?" — place results in broader context.
-1. Restate and interpret core findings (mechanism explanation)
-2. Compare with existing work (consistent and divergent points)
-3. Limitations (integrate naturally, not "Several limitations" subheading)
-4. Conclusions and outlook
-
-Constraints: no new results; no speculation beyond boundaries; citations for comparative claims.
-
-**Overclaim checks (Discussion 专有)**:
-- [ ] 机制解释中的"表明"是否被数据强度支持？2 个种子不能"表明"，只能说"提示"。
-- [ ] 外推/展望是否标注为推测语气（"可望"、"有待"、"需进一步验证"）？
-- [ ] "机理"不写作"机制"？"机制 (mechanism)"需要有因果链证据，"机理 (phenomenology)"仅描述现象。
-
-### Conclusion
-
-Distill "what scientific question this answers" — not a data summary.
-1. Research contributions (present simple)
-2. Experimental conclusions (past simple / present perfect)
-3. Future directions (present simple, with modals)
+如果两问都答"是"，删除这些词。
 
 ## Boundaries
 
 - This skill does **structure planning and content review**, not grammar proofreading, reference formatting, or figure/table creation
 - For the full 27-item final review checklist, use `/paper-review-checklist`
+- Section-specific reference files are loaded on demand — read the relevant file when you need it
