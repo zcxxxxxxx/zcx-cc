@@ -1,0 +1,17 @@
+# --- CFD Experiment: Ignored Directories ---
+# These are auto-generated during simulation runs.
+
+# Per-mesh case directories (large, solver-generated)
+cases/
+
+# Solver logs and outputs (regenerated each run)
+logs/
+outputs/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db

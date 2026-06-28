@@ -1,0 +1,18 @@
+{
+  "name": "engineering-workflow",
+  "description": "Three-tier engineering workflow: Loop Engineering (orchestration) → Superpowers (session patterns) → Harness Engineering (infrastructure). Requires superpowers plugin.",
+  "version": "1.0.0",
+  "author": {
+    "name": "zcx-cc"
+  },
+  "dependencies": {
+    "superpowers": ">=5.0.0"
+  },
+  "keywords": [
+    "engineering-workflow",
+    "loop-engineering",
+    "harness-engineering",
+    "autonomous-loops",
+    "experiment-harness"
+  ]
+}

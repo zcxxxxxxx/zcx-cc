@@ -1,0 +1,9 @@
+evaluation:
+  seed: 42
+  metrics: [l2_error, max_error]
+  save_plots: true
+  plot_dir: figures/
+
+data:
+  test_n_x: 512
+  test_n_t: 200

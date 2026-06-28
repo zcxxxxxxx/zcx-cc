@@ -1,2 +1,16 @@
 # No secrets — settings.json is a template with placeholder
 # Real tokens go in ~/.claude/settings.json or ~/.claude.json (not in this repo)
+
+# Experiment runtime artifacts
+experiments/*/outputs/
+experiments/*/checkpoints/
+experiments/*/figures/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db

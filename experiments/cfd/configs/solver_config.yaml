@@ -1,0 +1,67 @@
+# CFD Turbulence Simulation Loop — Solver Configuration
+# ======================================================
+# This file defines all solver parameters for the batch simulation loop.
+
+# --- Solver ---
+solver: simpleFoam           # Steady-state incompressible solver (OpenFOAM)
+turbulence_model: kOmegaSST  # k-omega SST turbulence model
+
+# --- Flow Conditions ---
+Reynolds_number: 1000000.0        # 1e6
+reference_velocity: 1.0       # m/s (freestream)
+reference_length: 1.0         # m (chord length)
+kinematic_viscosity: 1.0e-6   # m^2/s (calculated from Re = U*L/nu)
+
+# --- Boundary Conditions ---
+inlet:
+  type: freestream
+  U: [1.0, 0.0, 0.0]         # Velocity vector
+  p: 0.0                      # Gauge pressure
+  k: 1.0e-6                   # Turbulent kinetic energy
+  omega: 1.0                  # Specific dissipation rate
+
+outlet:
+  type: zeroGradient
+
+wall:
+  type: noSlip
+
+# --- Solver Controls ---
+solver_controls:
+  max_iterations: 5000        # Maximum solver iterations per run
+  write_interval: 100         # Write solution every N iterations
+  residual_writing: true      # Write residuals to log
+  residual_field_names:
+    - Ux
+    - Uy
+    - Uz
+    - p
+    - k
+    - omega
+
+# --- Convergence ---
+convergence:
+  criterion: max_residual     # Convergence is based on max residual across all fields
+  tolerance: 1.0e-6           # All residuals must fall below this
+  check_window: 50            # Check convergence every N iterations
+  min_iterations: 100         # Minimum iterations before convergence check
+  stagnation_window: 200      # Consider stagnated if residual plateaus for N iterations
+
+# --- Retry Settings ---
+retry:
+  max_retries: 1              # Maximum number of retries per mesh
+  relaxation_factor: 0.3      # Reduce under-relaxation to this value on retry
+  retry_log_suffix: _retry    # Suffix for retry log files
+
+# --- Divergence Detection ---
+divergence_detection:
+  nan_check: true             # Check for NaN/Inf in log
+  residual_spike_threshold: 10.0  # Residual > this triggers divergence
+  consecutive_increase: 20    # Residual increasing for N consecutive iterations = diverging
+  large_residual_threshold: 1.0   # Initial residual > this = divergence
+
+# --- Resources ---
+resources:
+  n_procs: 4                  # Number of processors per run
+  use_mpi: false              # Use MPI parallelism
+  max_wall_time_hours: 48     # Maximum wall time per mesh

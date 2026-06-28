@@ -1,0 +1,39 @@
+{
+  "description": "PINN hyperparameter sweep for 1D Burgers equation",
+  "pde": {
+    "type": "burgers",
+    "nu": 0.01,
+    "x_range": [-1, 1],
+    "t_range": [0, 1],
+    "n_collocation": 10000,
+    "n_boundary": 200,
+    "n_initial": 200,
+    "n_validation": 1000
+  },
+  "training": {
+    "steps": 50000,
+    "batch_size": 128,
+    "seed": 42,
+    "lr_scheduler": "cosine",
+    "log_every": 100,
+    "validation_every": 500,
+    "save_every": 10000,
+    "early_stop_patience": null
+  },
+  "hyperparameters": {
+    "learning_rates": [0.0001, 0.0005, 0.001],
+    "hidden_widths": [32, 64, 128],
+    "activations": ["tanh", "silu"]
+  },
+  "verification": {
+    "max_val_loss": 10.0,
+    "nan_check": true,
+    "require_loss_curve_points": 100
+  },
+  "loop": {
+    "max_iterations": 25,
+    "wall_clock_hours": 12,
+    "consecutive_nan_limit": 3,
+    "per_config_timeout_minutes": 120
+  }
+}

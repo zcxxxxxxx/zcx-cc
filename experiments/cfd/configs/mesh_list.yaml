@@ -1,0 +1,60 @@
+# Mesh List Configuration
+# =======================
+# Defines all meshes to be processed in the batch loop.
+
+meshes:
+  - id: mesh_1
+    file: meshes/mesh_1.msh
+    description: "NACA0012 structured grid, 256x128 cells"
+    airfoil: NACA0012
+    mesh_type: structured
+    cell_count: 32768
+
+  - id: mesh_2
+    file: meshes/mesh_2.msh
+    description: "NACA0012 structured grid, 128x64 cells (coarse)"
+    airfoil: NACA0012
+    mesh_type: structured
+    cell_count: 8192
+
+  - id: mesh_3
+    file: meshes/mesh_3.msh
+    description: "NACA0012 structured grid, 512x256 cells (fine)"
+    airfoil: NACA0012
+    mesh_type: structured
+    cell_count: 131072
+
+  - id: mesh_4
+    file: meshes/mesh_4.msh
+    description: "RAE2822 structured grid, 256x128 cells"
+    airfoil: RAE2822
+    mesh_type: structured
+    cell_count: 32768
+
+  - id: mesh_5
+    file: meshes/mesh_5.msh
+    description: "RAE2822 unstructured grid, 50k cells"
+    airfoil: RAE2822
+    mesh_type: unstructured
+    cell_count: 50000
+
+  - id: mesh_6
+    file: meshes/mesh_6.msh
+    description: "NACA4412 structured grid, 256x128 cells"
+    airfoil: NACA4412
+    mesh_type: structured
+    cell_count: 32768
+
+  - id: mesh_7
+    file: meshes/mesh_7.msh
+    description: "S809 wind turbine airfoil, structured grid, 320x160 cells"
+    airfoil: S809
+    mesh_type: structured
+    cell_count: 51200
+
+  - id: mesh_8
+    file: meshes/mesh_8.msh
+    description: "DU93-W-210 wind turbine airfoil, structured grid, 320x160 cells"
+    airfoil: DU93-W-210
+    mesh_type: structured
+    cell_count: 51200

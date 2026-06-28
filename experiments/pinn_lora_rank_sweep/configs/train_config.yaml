@@ -1,0 +1,16 @@
+model:
+  architecture: pinn
+  hidden_layers: 4
+  hidden_neurons: 64
+  activation: tanh
+
+training:
+  seed: 42
+  lr: 0.001
+  epochs: 1000
+  batch_size: 128
+
+data:
+  n_x: 256
+  n_t: 100
+  domain: [-1, 1]

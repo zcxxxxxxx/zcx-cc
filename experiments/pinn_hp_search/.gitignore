@@ -1,0 +1,16 @@
+# PINN Hyperparameter Search — gitignore
+
+# Output data (generated during training)
+outputs/*/
+!outputs/.gitkeep
+
+model_state.npz
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+Thumbs.db
+.DS_Store

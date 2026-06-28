@@ -1,0 +1,19 @@
+# Experiment outputs and checkpoints
+outputs/
+checkpoints/
+figures/
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db

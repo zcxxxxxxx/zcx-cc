@@ -1,0 +1,32 @@
+{
+  "learning_rate": 0.0001,
+  "hidden_width": 32,
+  "activation": "silu",
+  "num_hidden": 4,
+  "steps": 50000,
+  "seed": 42,
+  "pde": {
+    "type": "burgers",
+    "nu": 0.01,
+    "x_range": [
+      -1,
+      1
+    ],
+    "t_range": [
+      0,
+      1
+    ],
+    "n_collocation": 10000,
+    "n_boundary": 200,
+    "n_initial": 200,
+    "n_validation": 1000
+  },
+  "training": {
+    "batch_size": 128,
+    "lr_scheduler": "cosine",
+    "log_every": 100,
+    "validation_every": 500,
+    "save_every": 10000,
+    "early_stop_patience": null
+  }
+}
