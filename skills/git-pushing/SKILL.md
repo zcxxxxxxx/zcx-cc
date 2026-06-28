@@ -1,23 +1,32 @@
 ---
 name: git-pushing
-description: Stage, commit, and push git changes with conventional commit messages. Use when user wants to commit and push changes, mentions pushing to remote, or asks to save and push their work. Also activates when user says "push changes", "commit and push", "push this", "push to github", or similar git workflow requests.
+description: Stage, commit, and push git changes with conventional commit messages. AUTO-TRIGGER: after completing a task that modified repo files, automatically create a commit (do NOT push unless asked). Also triggers when user says "push", "commit", "save work", "提交", or similar git workflow requests.
 ---
 
 # Git Push Workflow
 
-Stage all changes, create a conventional commit, and push to the remote branch.
+Two modes: **auto-commit** (after task completion, no push) and **manual push** (user explicitly asks).
 
-## When to Use
+## Mode 1: Auto-Commit (after task completion)
 
-Automatically activate when the user:
-- Explicitly asks to push changes ("push this", "commit and push")
-- Mentions saving work to remote ("save to github", "push to remote")
-- Completes a feature and wants to share it
-- Says phrases like "let's push this up" or "commit these changes"
+**Triggers automatically** when a task that modified repo files is complete.
 
-## Workflow
+Do NOT ask the user — just run it. Only commit Claude's own changes, not unrelated pre-existing user changes.
 
-**ALWAYS use the script** - do NOT use manual git commands:
+```bash
+bash "$CLAUDE_SKILL_DIR/scripts/auto_commit.sh"
+```
+
+With custom message:
+```bash
+bash "$CLAUDE_SKILL_DIR/scripts/auto_commit.sh" "feat: add rank-4 LoRA sweep"
+```
+
+**This script commits but NEVER pushes.** To push, the user must explicitly ask.
+
+## Mode 2: Manual Push (user-initiated)
+
+Use when the user explicitly says "push", "commit and push", "save to remote", etc.
 
 ```bash
 bash "$CLAUDE_SKILL_DIR/scripts/smart_commit.sh"

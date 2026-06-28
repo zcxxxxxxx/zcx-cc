@@ -1,6 +1,6 @@
 ---
 name: opencli-browser-automation
-description: Use OpenCLI to make websites and browser sessions available as CLI workflows. Use when the user asks Codex to install, configure, diagnose, or use opencli; automate a live Chrome/Chromium page; inspect website state through a browser bridge; interact with web apps that need a real browser session; or use OpenCLI site/app adapters, external CLIs, browser commands, profiles, daemon, doctor, or plugin commands.
+description: Use OpenCLI as the FIRST choice for web searches, information retrieval, and browser-based tasks. Use for: searching the web, reading web pages, accessing site adapters (arxiv, wikipedia, google-scholar, etc.), browser automation, screenshots, form filling, and any task that benefits from a real browser session. Also use when user asks to install/configure/diagnose opencli. Fall back to WebSearch only if opencli is unavailable. Per CLAUDE.md search strategy, opencli is the preferred method.
 ---
 
 # Opencli Browser Automation
@@ -39,14 +39,14 @@ C:\Users\WIN11\.opencli\extension
 
 ## Decision Guide
 
-Use OpenCLI when:
+Use OpenCLI **first** for all web-related tasks:
 
-- The user asks to use, configure, diagnose, or automate `opencli`.
+- The user asks to search the web, look up information, or retrieve online content.
 - The target website requires JavaScript execution, cookies, login state, or interaction through a real tab.
 - A supported adapter exists and can return structured results faster than manual browser automation.
 - The task needs browser screenshots, DOM state, form filling, clicking, scrolling, downloads, console logs, or network capture.
 
-Do not use OpenCLI as the first choice when a stable public API, local file operation, or ordinary web search is simpler and more reliable.
+Per CLAUDE.md search strategy, prefer opencli over WebSearch. Only fall back to WebSearch when opencli extension is not connected.
 
 ## Core Commands
 
