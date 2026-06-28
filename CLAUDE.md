@@ -1,33 +1,39 @@
-# Global Claude Instructions
+# zcx-cc Project Rules
 
-## Default Skills
+This is a computational research repo (CFD/PINN/ML). Experiments are structured
+with harness-engineering conventions. See `engineering-workflow` plugin for
+the full loop + harness toolchain.
 
-The following skills should be used by default in all projects:
+## Project Structure
 
-### harness-engineering
+- `experiments/<name>/` — experiment directories, each self-contained
+  - `outputs/` — generated checkpoints and logs. **Do not commit.**
+  - `configs/` — YAML/JSON configs, committed
+  - `scripts/` — run/check scripts, committed
+  - `docs/` — plan/design docs, committed
+  - `meshes/` — small test meshes committed; large ones in .gitignore
+- `docs/harness/` — harness artifacts
+  - `active/` — current experiment plans
+  - `completed/` — archived plans
+- `plugins/local/engineering-workflow/` — the engineering-workflow plugin
 
-For any complex, multi-step task (implementing a feature, running experiments, multi-file changes, CFD/ML validation, paper-grade verification, or any task where future agents must resume from repo artifacts), invoke the `harness-engineering` skill before starting work.
+## Git Rules
 
-Trigger criteria:
-- Task requires 3+ distinct steps or touches multiple files
-- Task involves long-running experiments or validation
-- Task needs durable handoffs or progress tracking across sessions
-- User mentions "做实验" (running experiments), "跑仿真" (simulation), "复现" (reproduce), "验证" (validation/verification), "记录决策" (recording decisions), or "paper 提交" (paper submission)
+- Do not commit `experiments/*/outputs/` or `docs/harness/completed/` — generated artifacts.
+  Reason: these are experiment checkpoints recreatable from committed configs and code.
+- Use `git-pushing` skill for all git operations. Reason: ensures consistent commit format
+  and prevents accidental push of large files.
 
-### claude-md-maintainer
+## Commands
 
-Use `claude-md-maintainer` whenever CLAUDE.md is created, changed, reviewed, or discussed. Every edit to CLAUDE.md should pass through this skill. Also use when creating/initializing CLAUDE.md, reviewing/improving an existing CLAUDE.md, or turning repeated mistakes into durable rules.
+```bash
+# Check all experiment harnesses:
+# bash experiments/<name>/scripts/check-harness.sh all
+```
 
-## Git Management
+## Gotchas
 
-If the current working directory is a git repository, use `git-pushing` skill for git operations:
-- After completing a task that changed repository files, automatically create a git commit for Claude's own changes only
-- Do not push unless the user explicitly asks
-- Do not include unrelated pre-existing user changes in the commit
-- For any git workflow (status, diff, commit, push, branch, log, etc.), prefer using the `git-pushing` skill
-
-## Search Strategy
-
-When performing web searches, file searches, or information retrieval tasks:
-- First try using `opencli-browser-automation` for browser-based searches
-- Fall back to the built-in WebSearch tool if opencli is not available or inappropriate
+- `.msh` files are small test meshes committed to the repo; do not add large mesh files.
+- `F:/Git_repo/zcx-cc` is the repo root — prefer relative paths from here.
+- This repo is used across multiple sessions; always write STATE.md per harness convention
+  so the next agent can resume.
