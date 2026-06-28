@@ -2,6 +2,8 @@
 # =======================
 # Defines all meshes to be processed in the batch loop.
 
+seed: 0   # Deterministic sweep (no stochastic components)
+
 meshes:
   - id: mesh_1
     file: meshes/mesh_1.msh

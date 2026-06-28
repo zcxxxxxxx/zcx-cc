@@ -2,6 +2,9 @@
 # ======================================================
 # This file defines all solver parameters for the batch simulation loop.
 
+# --- Reproducibility ---
+seed: 0                      # Deterministic steady-state solver (seed not stochastic)
+
 # --- Solver ---
 solver: simpleFoam           # Steady-state incompressible solver (OpenFOAM)
 turbulence_model: kOmegaSST  # k-omega SST turbulence model

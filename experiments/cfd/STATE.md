@@ -7,8 +7,11 @@
 | Phase | Status |
 |-------|--------|
 | Plan | COMPLETE |
+| AGENTS.md | CREATED |
+| Validation template | CREATED |
 | Mesh inventory | COMPLETE (8 meshes logged) |
 | Case setup scripts | READY |
+| Mesh files (real) | NEEDED (stubs in place) |
 | Convert meshes | PENDING |
 | checkMesh quality | PENDING |
 | Run solver | PENDING |
@@ -62,6 +65,20 @@ Level 2 — Retry also diverges:        mark mesh FAIL, log reason, continue
 Level 3 — 3+ consecutive mesh fails:  pause loop, wait for operator
 ```
 
+## Harness Artifacts
+
+| Artifact | Path | Status |
+|----------|------|--------|
+| Plan | `docs/harness/active/2026-06-28-cfd-mesh-sweep-openfoam.md` | CREATED |
+| Validation template | `docs/harness/templates/cfd-validation-template.md` | CREATED |
+| Design doc | `docs/design.md` | CREATED |
+| AGENTS.md | `../../AGENTS.md` | CREATED |
+| State file | `STATE.md` | UPDATED |
+
 ## Next Step
 
-Run `bash scripts/run-mesh-sweep.sh all` to convert and run all 8 meshes, then `bash scripts/check-residuals.sh` to validate convergence, or use the existing Python loop: `python scripts/run_loop.py`.
+1. Replace stub mesh files (`meshes/*.msh`) with real mesh geometry.
+2. Adjust `FOAM_BASH` path in `scripts/run-mesh-sweep.sh` for local OpenFOAM installation.
+3. Run `bash scripts/run-mesh-sweep.sh all` to convert and run all 8 meshes.
+4. Validate: `bash scripts/check-residuals.sh logs/mesh_1.log 1e-6` (repeat for each).
+5. Or use: `python scripts/run_loop.py` for the Python orchestrator with auto-retry.
