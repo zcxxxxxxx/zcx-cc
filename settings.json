@@ -2,12 +2,32 @@
   "effortLevel": "high",
   "enabledPlugins": {
     "academic-research-skills@academic-research-skills": true,
-    "claude-md-management@claude-plugins-official": true,
+    "local-tools@local-tools": true,
+    "superpowers@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true
+    "andrej-karpathy-skills@karpathy-skills": true
   },
-  "env": {
+  "extraKnownMarketplaces": {
+    "academic-research-skills": {
+      "source": {
+        "source": "github",
+        "repo": "Imbad0202/academic-research-skills"
+      }
+    },
+    "local-tools": {
+      "source": {
+        "source": "directory",
+        "path": "C:\\Users\\WIN11\\.claude\\plugins\\local\\local-tools"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    }
+  },
     "ANTHROPIC_AUTH_TOKEN": "YOUR_TOKEN_HERE",
     "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
