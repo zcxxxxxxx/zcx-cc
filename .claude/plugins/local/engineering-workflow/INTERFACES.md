@@ -26,8 +26,9 @@ This document defines the contracts between the three tiers of the engineering-w
 **Provider:** Harness Engineering
 **Consumer:** Loop Engineering, any agent reading/writing state
 
+### Variant A: Full experiment STATE.md (for loops + harness)
+
 ```
-STATE.md format:
 # Project State
 
 ## Status
@@ -49,8 +50,33 @@ STATE.md format:
 - Last escalation: timestamp + reason
 ```
 
-**Contract:** Any agent can read/write STATE.md. The format must be parseable
-by both humans and scripts (grep-friendly sections, pipe-delimited tables).
+### Variant B: Code-task STATE.md (for code_only tasks)
+
+Use this lighter variant when the task is "write and run a script" — no cycles,
+no escalation, no hard stops needed.
+
+```
+# <Task Name> State
+
+## Summary
+- **Total items processed:** N
+- **Results:** <key metric>
+- **Status:** COMPLETE | FAILED
+
+## Per-Item Results
+| # | Input | Expected | Actual | Status |
+|---|-------|----------|--------|--------|
+| 1 | ...   | ...      | ...    | PASS/FAIL |
+
+## Notes
+- Script: <filename>
+- Output files: <file list>
+```
+
+**Contract:** Any agent can read/write STATE.md. Agents on code_only tasks MUST
+use Variant B (lighter, no cycle/limits overhead). Full-stack tasks MUST use
+Variant A. The format must be parseable by both humans and scripts
+(grep-friendly sections, pipe-delimited tables).
 
 ## Interface 2: check-harness.sh
 

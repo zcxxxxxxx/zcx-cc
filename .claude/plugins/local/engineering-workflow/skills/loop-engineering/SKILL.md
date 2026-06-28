@@ -26,10 +26,11 @@ when stuck.
 
 ## Cost-Aware Fast Path
 
-Before diving into the full 5-step method, check: **is this a single-domain task?**
+Before diving into the full 5-step method, classify the task scope:
 
 | Task scope | What to do | Why |
 |------------|-----------|-----|
+| **Code only** (write & run a script, no loop, no experiment infra) | Skip both harness and loop. Use lightweight STATE.md (`code_task` variant). Reference `harness-engineering/scripts/templates/` if applicable. | Pure code tasks don't need orchestration or experiment scaffolding — eliminates unnecessary token overhead |
 | **Pure harness** (just experiment setup, no loop) | Run `harness-engineering` only. No loop design needed. | Saves 50%+ tokens by skipping loop logic |
 | **Pure loop** (just a loop design, no experiment infra) | Run this skill but skip harness cross-references. Use flat STATE.md, no `docs/harness/` needed. | Harness scaffolding is unused when no long-term experiment tracking is needed |
 | **Full stack** (loop + experiment infra) | Use the full 5-step method below + harness integration section at bottom | Both tiers earn their token cost |
@@ -37,6 +38,9 @@ Before diving into the full 5-step method, check: **is this a single-domain task
 > **Test data:** single-domain tasks score 100% without the other skill. Only full-stack
 > tasks benefit from the combined workflow. If in doubt, start with the minimal approach
 > and escalate only when the task requires both orchestration AND infrastructure.
+>
+> For **code_only** tasks: if the estimated tokens exceed 2x what a human would spend
+> writing the same code, you're over-engineering. Use templates, not scaffolds.
 
 ## Where This Fits
 
@@ -261,14 +265,18 @@ re-adding to rotation.
 
 This skill integrates with harness-engineering for infrastructure:
 
-- **State file** → uses harness `STATE.md` convention
+- **State file** → uses harness `STATE.md` convention (Variant A for full loops, Variant B for `code_only`)
 - **Gate verification** → delegates to `scripts/check-harness.sh`
 - **Validation criteria** → uses harness `references/validation-templates.md`
 - **Plan artifacts** → stored in `docs/harness/active/` per harness convention
 - **Cleanup** → uses harness `references/entropy-checklist.md`
+- **Code templates** → `harness-engineering/scripts/templates/` for reusable script patterns
 
 If the harness infrastructure is not present, run `harness-engineering` first
 to bootstrap it.
+
+For **code_only** tasks: skip to `harness-engineering/scripts/templates/` directly.
+Reference a template instead of writing from scratch.
 
 ---
 
@@ -279,4 +287,5 @@ to bootstrap it.
 - `scripts/loop-audit.sh` — Check active loops for health
 
 For harness-related references (state file guide, validation templates,
-entropy checklist), see the harness-engineering skill's reference files.
+entropy checklist, code templates), see the harness-engineering skill's
+reference files and `scripts/templates/`.

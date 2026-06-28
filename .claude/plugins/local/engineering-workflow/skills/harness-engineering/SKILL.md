@@ -115,12 +115,14 @@ orchestration layers use to consume Harness infrastructure:
 
 | Component | File | What it provides | Consumed by loop as |
 |-----------|------|------------------|-------------------|
-| **State file convention** | `STATE.md` at project root | Cycle memory: what's done, what broke, what's next | Loop's Step 2 (State File) |
+| **State file convention** | `STATE.md` at project root | Cycle memory: what's done, what broke, what's next (full variant) | Loop's Step 2 (State File) |
+| **Code-task STATE.md** | `INTERFACES.md` (§Variant B) | Lighter state tracking for `code_only` tasks — no cycles, no limits, no escalation | Fast Path code_only tasks |
 | **Check scripts** | `scripts/check-harness.sh` | Integrity verification, setup, audit | Gate verification step |
 | **Validation templates** | `references/validation-templates.md` | Claim levels + verification checklists | Gate criteria |
 | **Plan artifacts** | `docs/harness/active/` | Structured experiment plans | Loop's context initialization |
 | **Taste invariants** | `references/taste-invariants.md` | Enforceable standards as executable checks | Gate automation |
 | **Entropy checklist** | `references/entropy-checklist.md` | Cleanup procedures | Loop teardown / archive |
+| **Code templates** | `scripts/templates/` | Reusable file-watcher, equation-solver, etc. | Code-only tasks — use directly instead of writing from scratch |
 
 **Contract:**
 - Loop Engineering calls `scripts/check-harness.sh` for gate verification — it must exit 0 for pass, non-zero for fail
