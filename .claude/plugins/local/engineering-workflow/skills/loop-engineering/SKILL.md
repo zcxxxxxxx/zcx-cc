@@ -24,6 +24,20 @@ Instead of micromanaging each AI interaction, design a closed-loop system
 that autonomously executes, verifies, retries, and only escalates to you
 when stuck.
 
+## Cost-Aware Fast Path
+
+Before diving into the full 5-step method, check: **is this a single-domain task?**
+
+| Task scope | What to do | Why |
+|------------|-----------|-----|
+| **Pure harness** (just experiment setup, no loop) | Run `harness-engineering` only. No loop design needed. | Saves 50%+ tokens by skipping loop logic |
+| **Pure loop** (just a loop design, no experiment infra) | Run this skill but skip harness cross-references. Use flat STATE.md, no `docs/harness/` needed. | Harness scaffolding is unused when no long-term experiment tracking is needed |
+| **Full stack** (loop + experiment infra) | Use the full 5-step method below + harness integration section at bottom | Both tiers earn their token cost |
+
+> **Test data:** single-domain tasks score 100% without the other skill. Only full-stack
+> tasks benefit from the combined workflow. If in doubt, start with the minimal approach
+> and escalate only when the task requires both orchestration AND infrastructure.
+
 ## Where This Fits
 
 Loop Engineering is the **orchestration layer** in a three-tier stack:
@@ -168,6 +182,16 @@ If the **acceptance rate** (outputs that pass the gate ÷ total outputs)
 drops below 50%, the loop costs more in review than it saves. Kill or
 redesign.
 
+**Token efficiency (proportionality):**
+- A simple monitoring loop should run under 30k tokens per cycle
+- An experiment sweep with full harness typically runs 60-90k tokens per cycle
+- If token usage exceeds 2x what a human would spend describing the same task
+  in writing, the skill instructions are likely causing over-elaboration
+- When you notice the agent producing unnecessarily verbose output (pages of
+  boilerplate, over-documented scripts), tighten the prompt — don't add more
+  "be concise" rules, just remove the parts of the skill that trigger the
+  verbosity
+
 **How to track it:**
 - Log cycle cost in STATE.md (estimated tokens × rate)
 - Log gate outcome (pass/fail) per cycle
@@ -218,9 +242,18 @@ than network width by 3×"). A bare ranking without influence analysis is incomp
 ## Superpowers Integration
 
 Inside a loop, reference superpowers skills for specific steps:
-`dispatching-parallel-agents` for child loops, `systematic-debugging` for
-failure analysis, `verification-before-completion` for independent gates,
-`finishing-a-development-branch` for pre-merge completion gates.
+
+| Step | Superpowers skill | Example usage |
+|------|------------------|---------------|
+| **Dispatch child loops** | `dispatching-parallel-agents` | Sweep 18 PINN configs: spawn 3 parallel agents, each runs 6 configs |
+| **Debug failures** | `systematic-debugging` | A config produces NaN loss: replicate, isolate dims, check gradient flow |
+| **Gate verification** | `verification-before-completion` | Monitor loop output dir, verify STATE.md integrity, check convergence metrics |
+| **Pre-merge finalization** | `finishing-a-development-branch` | After all loop configs pass: clean up experiment dir, push results, archive logs |
+
+For website monitoring: use `dispatching-parallel-agents` to check
+multiple endpoints simultaneously, `systematic-debugging` on 5xx response
+analysis, `verification-before-completion` to confirm recovery before
+re-adding to rotation.
 
 ---
 

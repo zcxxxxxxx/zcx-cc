@@ -85,6 +85,14 @@ for cfg in $(get_config_names); do
             echo -e "  [\033[0;31mFAIL\033[0m]  $cfg — NaN in training"
             FAILED=$((FAILED + 1))
             ;;
+        FAILED_RETRY_EXHAUSTED)
+            echo -e "  [\033[0;31mFAIL\033[0m]  $cfg — retries exhausted"
+            FAILED=$((FAILED + 1))
+            ;;
+        FAILED_VERIFICATION)
+            echo -e "  [\033[0;31mFAIL\033[0m]  $cfg — verification failure"
+            FAILED=$((FAILED + 1))
+            ;;
         *)
             echo -e "  [\033[1;33m?\033[0m]    $cfg — status: $STATUS"
             PENDING=$((PENDING + 1))

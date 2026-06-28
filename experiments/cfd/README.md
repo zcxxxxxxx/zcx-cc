@@ -70,6 +70,15 @@ run_loop.py  (entry point)
   +-- outputs/summary.csv    — machine-readable results
 ```
 
+## Harness Integration
+
+This experiment is tracked via the harness-engineering framework:
+
+- **Plan:** `docs/harness/active/2026-06-28-cfd-mesh-sweep-openfoam.md`
+- **Validation template:** `docs/harness/templates/cfd-validation-template.md`
+- **Check scripts:** `scripts/check-residuals.sh`, `scripts/check-mesh-quality.sh`
+- **State tracking:** `STATE.md`
+
 ## Status
 
 | Mesh ID | Airfoil | Cells | Type | Status |
