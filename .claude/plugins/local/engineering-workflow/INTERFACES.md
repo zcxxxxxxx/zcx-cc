@@ -28,6 +28,9 @@ This document defines the contracts between the three tiers of the engineering-w
 
 ### Variant A: Full experiment STATE.md (for loops + harness)
 
+Used by loop tasks with experiment infrastructure — tracks status, cycle count,
+per-item progress, hard stop limits, escalation path.
+
 ```
 # Project State
 
@@ -52,8 +55,8 @@ This document defines the contracts between the three tiers of the engineering-w
 
 ### Variant B: Code-task STATE.md (for code_only tasks)
 
-Use this lighter variant when the task is "write and run a script" — no cycles,
-no escalation, no hard stops needed.
+Lightweight variant for pure code tasks: no cycles, no limits, no escalation.
+Just summary, per-item results, and notes.
 
 ```
 # <Task Name> State
@@ -73,10 +76,10 @@ no escalation, no hard stops needed.
 - Output files: <file list>
 ```
 
-**Contract:** Any agent can read/write STATE.md. Agents on code_only tasks MUST
-use Variant B (lighter, no cycle/limits overhead). Full-stack tasks MUST use
-Variant A. The format must be parseable by both humans and scripts
-(grep-friendly sections, pipe-delimited tables).
+**Contract:** Any agent can read/write STATE.md. code_only tasks MUST use
+Variant B (lightweight). Full-stack tasks MUST use Variant A.
+Format must be parseable by both humans and scripts (grep-friendly sections,
+pipe-delimited tables).
 
 ## Interface 2: check-harness.sh
 
@@ -96,7 +99,7 @@ bash scripts/check-harness.sh audit    # Full audit: integrity + entropy
 ```
 
 **Contract:** The script must be self-contained (no imports beyond stdlib/bash
-builtins). It must exit 0 for pass and non-zero for fail with specific codes.
+builtins). Exit 0 for pass, non-zero for fail with specific error codes.
 Loop gates call this script and interpret exit codes.
 
 ## Interface 3: Validation Templates (Claim Levels)
