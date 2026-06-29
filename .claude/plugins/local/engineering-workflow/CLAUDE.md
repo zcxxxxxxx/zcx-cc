@@ -13,7 +13,10 @@ Harness Engineering   — infrastructure: STATE.md, check scripts, templates
 
 - **Cost-Aware Fast Path** — auto-classifies task scope (code_only / pure harness / pure loop / full stack) and loads only relevant context
 - **Code templates** — `harness-engineering/scripts/templates/` provides reusable file-watcher and equation-solver scripts
-- **STATE.md dual variant** — Variant A for full experiment tracking, Variant B for lightweight code-task state
+- **STATE.md triple variant** — Variant A (full experiment), Variant B (code-task), Variant C (delta sweeps)
+- **Execution contract** — `scripts/generate-contract.sh` compresses plan artifacts into a single checkable contract with SHA256 content-level staleness detection
+- **Content-level state detection** — `check-harness.sh contract` mode validates SHA256 hashes of source artifacts against contract; `loop-audit.sh` checks STATE.md content freshness
+- **Experiment artifact templates** — `references/experiment-artifacts.md` provides structured plan/spec/design/task templates inspired by OpenSpec
 - **Writer/Verifier separation** — independent gate verification, no shared context between executor and verifier
 - **Hard stop conditions** — iteration limit + wall-clock timeout + failure threshold, with 3-level escalation ladder (retry → notify → halt)
 - **Entropy management** — archive completed experiments, prune stale outputs
@@ -41,11 +44,26 @@ To check if superpowers is already installed, look for:
 - `harness-engineering` — Experiment workflows, check scripts, validation templates, entropy management
 - `loop-engineering` — Autonomous task loop design (5-step build method, composite loops, hard stops)
 
-## Tier Interaction
+## Tier Interaction (CRITICAL — READ THIS FIRST)
 
-1. **Loop Engineering orchestrates** — designs the cycle structure, triggers, gates, and escalation paths
-2. **Loop delegates execution to Superpowers** — uses superpowers skills for individual steps
-3. **Loop runs on Harness infrastructure** — state files, check scripts, experiment templates, and validation gates
+These three tiers form a stack. For any multi-step experiment or research task,
+you MUST load ALL THREE: `harness-engineering`, `loop-engineering`, AND
+relevant superpowers skills (`tdd`, `debugging`, `review`, `parallel-agent`).
+
+```
+Loop Engineering      — orchestrates: designs cycles, triggers, gates, escalation
+  ↓ delegates to
+Superpowers (ext.)    — executes: TDD, review, debug, parallel agents
+  ↓ runs on
+Harness Engineering   — infrastructure: STATE.md, check scripts, contracts
+```
+
+- If you loaded `harness-engineering` but the task has 3+ steps → also load `loop-engineering` + superpowers skills
+- If you loaded `loop-engineering` but the task needs experiment tracking → also load `harness-engineering` + superpowers skills
+- If you loaded only superpowers skills but the task needs orchestration or tracking → also load loop + harness
+- Superpowers skills to load: `tdd` (code writing), `debugging` (fix issues), `review` (code review), `parallel-agent` (parallel dispatch)
+- Use the fast-path table below to determine if ONE tier can be skipped for simple tasks
+- When in doubt, load both — the fast-path logic handles the "skip if unnecessary" case
 
 ### Cost-Aware Fast Path
 
@@ -58,7 +76,10 @@ To check if superpowers is already installed, look for:
 
 ## Reference Files
 
-- `INTERFACES.md` — Interface contracts between the three tiers
+- `INTERFACES.md` — Interface contracts between the three tiers (+ Variant C delta STATE.md, + Interface 6 Execution Contract)
 - `skills/harness-engineering/scripts/templates/` — Reusable code templates
+- `skills/harness-engineering/scripts/generate-contract.sh` — Execution contract generator
+- `skills/harness-engineering/references/experiment-artifacts.md` — Structured experiment plan templates
+- `skills/harness-engineering/references/execution-contract.md` — Execution contract template and guide
 - `skills/loop-engineering/references/anti-patterns.md` — Common loop design mistakes
 - `skills/loop-engineering/references/readiness-test.md` — 4-condition readiness test + trigger guide

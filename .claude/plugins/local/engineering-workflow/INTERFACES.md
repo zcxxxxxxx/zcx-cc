@@ -78,8 +78,41 @@ Just summary, per-item results, and notes.
 
 **Contract:** Any agent can read/write STATE.md. code_only tasks MUST use
 Variant B (lightweight). Full-stack tasks MUST use Variant A.
+Iterative sweep/scan tasks SHOULD use Variant C (delta).
 Format must be parseable by both humans and scripts (grep-friendly sections,
 pipe-delimited tables).
+
+### Variant C: Delta STATE.md (for iterative sweeps)
+
+Delta variant for parameter sweeps, hyperparameter scans, and other iterative
+experiments where each cycle only changes a few variables. Instead of rewriting
+the full state each cycle, append only what changed.
+
+```
+# Delta State — Cycle <N>
+
+## Changes from Previous Cycle
+| Parameter | Previous | Current | Reason |
+|-----------|----------|---------|--------|
+| <param>   | <old>    | <new>   | <why>  |
+
+## New Results This Cycle
+| Config | Status | Key Metric | vs Baseline |
+|--------|--------|------------|-------------|
+| <id>   | PASS/FAIL | <val>   | <delta>    |
+
+## Accumulated Best
+- **Best config so far:** <config-id> (<metric>)
+- **Total cycles completed:** <N>
+- **Convergence trend:** improving | stable | degrading
+
+## Next
+- <what to try next cycle>
+```
+
+**Contract:** Variant C MUST be accompanied by a full Variant A STATE.md for
+accumulated context. The delta records only the diff between consecutive cycles.
+When N exceeds 20, archive accumulated deltas and reset.
 
 ## Interface 2: check-harness.sh
 
@@ -149,3 +182,25 @@ management). Loop reads the plan to bootstrap context.
 
 **Contract:** These skills are loaded by name. The superpowers plugin must be
 installed for the references to resolve.
+
+## Interface 6: Execution Contract
+
+**Provider:** Harness Engineering (`scripts/generate-contract.sh`)
+**Consumer:** Loop Engineering (gate before execution)
+
+```
+bash scripts/generate-contract.sh [experiment-dir]  # Generate contract
+bash scripts/check-harness.sh contract [experiment-dir]  # Validate contract freshness
+```
+
+The execution contract is a single compressed document that captures the
+agreement between planning and execution. It is generated from source
+artifacts (plan, design, tasks) and validated by SHA256 content hashing.
+
+**Contract:**
+- Execution MUST NOT begin without a valid execution-contract.md
+- If source artifacts change, the contract SHA256 hashes mismatch →
+  execution is blocked until the contract is regenerated
+- Code-only tasks (Variant B) skip the contract; full-stack tasks MUST
+  generate and validate the contract before each execution cycle
+- Loop gate calls `check-harness.sh contract` before each cycle

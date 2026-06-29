@@ -1,15 +1,33 @@
 ---
 name: harness-engineering
 description: >-
-  Turn complex multi-step research into durable, agent-readable artifacts.
-  Inspired by OpenAI's Harness Engineering (2026): the repo is durable memory,
-  AGENTS.md is a map not an encyclopedia, taste invariants encode standards as
-  executable checks, entropy management prevents decay.
+  [INFRASTRUCTURE LAYER — MUST pair with loop-engineering for multi-step tasks]
+
+  Provides experiment scaffolding: STATE.md conventions, check-harness.sh integrity
+  scripts, execution-contract with SHA256 validation, entropy management, and
+  reference templates. This is the durable-memory and validation layer.
+
   TRIGGER ON: long-running experiments, CFD/ML/PINN validation, ablation
   studies, hyperparameter sweeps, multi-step coding plans, benchmark execution,
-  paper-grade reproducibility verification, or any task where "I need to
-  record this so I can come back later." Also trigger when user mentions
-  "做实验", "跑仿真", "复现", "验证", "记录决策", "paper 提交".
+  paper-grade reproducibility verification, ablation or parameter studies, or
+  any task where "I need to record this so I can come back later." Also trigger
+  when user mentions "做实验", "跑仿真", "复现", "验证", "记录决策", "paper 提交".
+
+  CRITICAL: This skill provides INFRASTRUCTURE only. For any task with 3+ steps,
+  iterative cycles, or experiment orchestration, you MUST ALSO load
+  loop-engineering (the orchestration layer). The two skills form a stack:
+  loop-engineering orchestrates → harness-engineering provides infrastructure.
+  Loading harness-engineering alone for a multi-step task will result in missing
+  orchestration (loops, retries, escalation). If in doubt about which to load,
+  load BOTH — the fast-path logic in loop-engineering's SKILL.md will tell you
+  if one tier can be skipped.
+
+  EXECUTION LAYER: For tasks that need code writing, testing, debugging, review,
+  or parallel execution, you MUST ALSO load relevant superpowers skills (tdd,
+  debugging, review, parallel-agent). The full three-tier stack is:
+  loop-engineering orchestrates → superpowers executes → harness-engineering
+  provides infrastructure.
+
   DO NOT use for one-off scripts, pure exploration without persistence, or
   tasks that produce no durable output.
 ---
@@ -115,9 +133,10 @@ orchestration layers use to consume Harness infrastructure:
 
 | Component | File | What it provides | Consumed by loop as |
 |-----------|------|------------------|-------------------|
-| **State file convention** | `STATE.md` at project root | Cycle memory: what's done, what broke, what's next (full variant) | Loop's Step 2 (State File) |
-| **Code-task STATE.md** | `INTERFACES.md` (§Variant B) | Lighter state tracking for `code_only` tasks — no cycles, no limits, no escalation | Fast Path code_only tasks |
-| **Check scripts** | `scripts/check-harness.sh` | Integrity verification, setup, audit | Gate verification step |
+| **State file convention** | `STATE.md` at project root | Cycle memory: Variant A (full), Variant B (code-only), Variant C (delta sweeps) | Loop's Step 2 (State File) |
+| **Delta STATE.md** | `INTERFACES.md` (§Variant C) | Lightweight per-cycle delta for iterative sweeps — records only what changed | Iterative sweep loops |
+| **Execution contract** | `execution-contract.md`, `scripts/generate-contract.sh` | Compressed single contract from plan artifacts; SHA256 content-level freshness validation | Loop gate before each cycle |
+| **Check scripts** | `scripts/check-harness.sh` | Integrity verification, setup, audit, contract validation (SHA256 content matching) | Gate verification step |
 | **Validation templates** | `references/validation-templates.md` | Claim levels + verification checklists | Gate criteria |
 | **Plan artifacts** | `docs/harness/active/` | Structured experiment plans | Loop's context initialization |
 | **Taste invariants** | `references/taste-invariants.md` | Enforceable standards as executable checks | Gate automation |
@@ -129,6 +148,8 @@ orchestration layers use to consume Harness infrastructure:
 - Loop writes `STATE.md` per the state file convention documented in harness references
 - Loop uses harness validation templates for verifier gates (claim scoping levels)
 - Harness provides but does not mandate the directory structure — loop may extend it
+- **Full-stack loops MUST generate and validate execution-contract.md before each cycle**
+- **Iterative sweeps SHOULD use Variant C (delta STATE.md) for per-cycle changes**
 
 ## When NOT to Use
 
@@ -144,4 +165,7 @@ orchestration layers use to consume Harness infrastructure:
 - `references/taste-invariants.md` — Templates for encoding standards as checks
 - `references/entropy-checklist.md` — Cleanup checklists
 - `references/validation-templates.md` — Templates + claim scoping
-- `scripts/check-harness.sh` — Integrity check script
+- `references/experiment-artifacts.md` — Structured experiment plan templates (proposal → specs → design → tasks)
+- `references/execution-contract.md` — Execution contract template and guide
+- `scripts/check-harness.sh` — Integrity check script (setup|audit|contract)
+- `scripts/generate-contract.sh` — Execution contract generator

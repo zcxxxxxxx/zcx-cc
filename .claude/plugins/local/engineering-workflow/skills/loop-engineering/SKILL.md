@@ -1,9 +1,11 @@
 ---
 name: loop-engineering
 description: >-
-  Build autonomous, self-sustaining task loops. Instead of one-shot prompts,
-  design systems that iterate through "trigger → execute → verify → retry →
-  escalate" cycles.
+  [ORCHESTRATION LAYER — MUST pair with harness-engineering for experiment tasks]
+
+  Designs autonomous task cycles: 5-step build method (goal → minimal loop → W/V
+  separation → hard stops → single metric), composite loops, verification gates,
+  escalation ladders. Provides loop-audit.sh and readiness checks.
 
   TRIGGER ON: "set up a loop", "run automatically", "定时跑", "自动化流程",
   "批量处理", "auto-retry", "无人值守", "self-healing", "持续验证",
@@ -11,6 +13,17 @@ description: >-
   /schedule. Also trigger for experiment sweeps, nightly batch jobs, parameter
   scans, data pipelines, or any repetitive workflow where "keep running until
   condition X."
+
+  CRITICAL: This skill provides ORCHESTRATION only. Whenever you trigger this
+  skill for experiment sweeps, parameter scans, data pipelines, or multi-step
+  research tasks, you MUST ALSO load harness-engineering (the infrastructure
+  layer) AND relevant superpowers skills (tdd, debugging, review, parallel-agent)
+  for the execution layer. The three tiers form a stack: loop-engineering
+  orchestrates → superpowers executes → harness-engineering provides
+  infrastructure. Also, when you see harness-engineering triggered for a
+  multi-step task, you MUST also load this skill — the task needs orchestration
+  whether or not the user said "loop". Use the fast-path table below to
+  determine if one tier can be skipped for simple tasks.
 
   DO NOT trigger for one-shot prompts, single-session debugging, tasks needing
   human judgment at every step (auth code, payment logic, architecture decisions),
@@ -265,10 +278,12 @@ re-adding to rotation.
 
 This skill integrates with harness-engineering for infrastructure:
 
-- **State file** → uses harness `STATE.md` convention (Variant A for full loops, Variant B for `code_only`)
-- **Gate verification** → delegates to `scripts/check-harness.sh`
+- **State file** → uses harness `STATE.md` convention (Variant A for full loops, Variant B for `code_only`, **Variant C for iterative sweeps**)
+- **Delta tracking** → iterative sweeps SHOULD use Variant C (delta STATE.md) to record only per-cycle changes instead of rewriting full state each cycle
+- **Execution contract** → full-stack loops MUST generate and validate `execution-contract.md` before each cycle via `scripts/generate-contract.sh`; the contract's SHA256 hashes detect stale source artifacts
+- **Gate verification** → delegates to `scripts/check-harness.sh` (supports `contract` mode for SHA256 content-level validation)
 - **Validation criteria** → uses harness `references/validation-templates.md`
-- **Plan artifacts** → stored in `docs/harness/active/` per harness convention
+- **Plan artifacts** → stored in `docs/harness/active/` per harness convention; use structured templates from `references/experiment-artifacts.md` (experiment-plan.md → configs/ → experiment-design.md → tasks.md)
 - **Cleanup** → uses harness `references/entropy-checklist.md`
 - **Code templates** → `harness-engineering/scripts/templates/` for reusable script patterns
 
@@ -284,8 +299,8 @@ Reference a template instead of writing from scratch.
 
 - `references/anti-patterns.md` — Common mistakes and how to avoid them
 - `references/readiness-test.md` — 4-Condition test and loop triggers
-- `scripts/loop-audit.sh` — Check active loops for health
+- `scripts/loop-audit.sh` — Check active loops for health (content-level SHA256 detection)
 
 For harness-related references (state file guide, validation templates,
-entropy checklist, code templates), see the harness-engineering skill's
-reference files and `scripts/templates/`.
+entropy checklist, code templates, experiment artifacts, execution contract),
+see the harness-engineering skill's reference files and `scripts/templates/`.

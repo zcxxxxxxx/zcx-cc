@@ -11,6 +11,10 @@
 | **Cost-Aware Fast Path** | 自动判断任务类型，只加载必要上下文。纯脚本任务跳过循环设计/实验框架 |
 | **循环设计 (Loop Engineering)** | 5 步构建法：目标定义 → 最小循环 → W/V 分离 → 硬停止 → 单一指标 |
 | **实验框架 (Harness Engineering)** | STATE.md 状态跟踪、check-harness.sh 完整性检查、验证模板 |
+| **STATE.md 三变体** | Variant A（完整实验）、Variant B（纯代码）、Variant C（增量扫描—只记录每次变化） |
+| **Execution Contract** | `generate-contract.sh` 将规划工件压缩为单一可检查契约，SHA256 内容级过期检测 |
+| **内容级状态检测** | `check-harness.sh contract` 模式通过 SHA256 哈希比对检测源文件是否变更 |
+| **实验工件模板** | 提供 proposal→specs→design→tasks 结构化模板（灵感来自 OpenSpec） |
 | **代码模板** | `scripts/templates/` 提供即用脚本（文件处理、方程求解），copy-paste 即用 |
 | **W/V 分离** | 执行器与验证器独立，验证器不共享执行器上下文 |
 | **硬停止条件** | 迭代限制 + 超时 + 失败阈值三保险，retry→notify→halt 升梯报警 |
@@ -32,22 +36,26 @@ Fast Path 根据任务类型智能分级，避免加载无关上下文：
 ```
 engineering-workflow/
 ├── CLAUDE.md                     # 插件入口（agent 指引）
-├── INTERFACES.md                 # 三层间接口契约
+├── INTERFACES.md                 # 三层间接口契约（含 Variant C + Interface 6）
+├── README.md                     # 本文件（中文用户文档）
 ├── skills/
 │   ├── harness-engineering/      # 实验基础设施
 │   │   ├── SKILL.md
 │   │   ├── scripts/
-│   │   │   ├── check-harness.sh
+│   │   │   ├── check-harness.sh  # (setup|audit|contract) 含内容级检测
+│   │   │   ├── generate-contract.sh  # execution-contract 生成器
 │   │   │   └── templates/        # 代码模板目录
 │   │   │       ├── file-watcher.py
 │   │   │       └── equation-solver.py
 │   │   └── references/
 │   │       ├── entropy-checklist.md
+│   │       ├── experiment-artifacts.md  # 结构化实验工件模板
+│   │       ├── execution-contract.md    # Contract 模板与指南
 │   │       ├── taste-invariants.md
 │   │       └── validation-templates.md
 │   └── loop-engineering/         # 循环编排
 │       ├── SKILL.md
-│       ├── scripts/loop-audit.sh
+│       ├── scripts/loop-audit.sh # v3 — 内容级检测 + contract 验证
 │       └── references/
 │           ├── anti-patterns.md
 │           └── readiness-test.md
@@ -83,3 +91,4 @@ cp -r engineering-workflow ~/.claude/plugins/local/engineering-workflow
 | 1.0.0 | 1 | 基础技能定义 + 3 个设计类 evals |
 | 1.0.1 | 2 | Cost-Aware Fast Path + INTERFACES.md + plugin 重构 |
 | 1.0.2 | 3 | **code_only** fast path + 代码模板 + STATE.md 双变体 |
+| 1.1.0 | 4 | STATE.md Variant C（增量追踪）+ Execution Contract + 内容级 SHA256 检测 + 实验工件模板 |
