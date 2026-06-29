@@ -36,14 +36,14 @@ cp ~/.claude-sync/settings.json ~/.claude/settings.json
 | **andrej-karpathy-skills** | 1.0.0 | [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) (MIT) | Karpathy 编码准则：减少 LLM 常见编码错误 |
 | **frontend-design** | — | Anthropic 官方 | 前端 UI/UX 设计与实现 |
 | **skill-creator** | — | Anthropic 官方 | Skill 创建、评测、迭代优化、description 优化 |
-| **local-tools** | — | 本地目录 | 本地工具封装：harness-engineering + opencli-browser-automation（由插件系统统一加载） |
+| **local-tools** | — | 本地目录 | 本地工具封装：harness-engineering（由插件系统统一加载） |
 
 ## Custom Skills
 
 | Skill | Purpose |
 |-------|---------|
-| **harness-engineering** | 复杂多步任务的持久化工作流：plan、日志、验证记录、决策记录 |
-| **opencli-browser-automation** | 浏览器自动化（Web 搜索、页面操作、截图），用于信息检索 |
+| **harness-engineering** | 复杂多步任务的持久化工作流（含 engineering-workflow 插件） |
+| **opencli-browser** | 官方 OpenCLI 浏览器驱动（原自写 opencli-browser-automation 已替换） |
 | **git-pushing** | Git commit/push 工作流，自动生成 conventional commit |
 | **claude-md-maintainer** | CLAUDE.md 创建、审查、维护 |
 | **paper-workflow** | 学术论文全流程：IMRaD 结构指导（含 JCP/JFM 期刊规范）+ 27 项终审检查清单 |
