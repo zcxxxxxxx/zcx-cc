@@ -15,7 +15,15 @@ the full loop + harness toolchain.
 - `docs/harness/` — harness artifacts
   - `active/` — current experiment plans
   - `completed/` — archived plans
-- `plugins/local/engineering-workflow/` — the engineering-workflow plugin
+- `plugins/local/engineering-workflow/` — the engineering-workflow plugin (also available as [standalone repo](https://github.com/zcxxxxxxx/engineering-workflow-plugin))
+
+## Plugin Setup
+
+On a new machine, install the engineering-workflow plugin from its standalone repo:
+```bash
+# In Claude Code:
+/plugin install https://github.com/zcxxxxxxx/engineering-workflow-plugin
+```
 
 ## Git Rules
 
