@@ -8,16 +8,16 @@ Skills, plugins, commands, and settings for Claude Code, synced across machines.
 # 1. Clone
 git clone https://github.com/zcxxxxxxx/zcx-cc.git ~/.claude-sync
 
-# 2. Add marketplaces
+# 2. Add marketplace (terminal 或 Claude Code 内）
 claude plugin marketplace add https://github.com/zcxxxxxxx/engineering-workflow-plugin
 
-# 3. Install plugins
-claude plugin install engineering-workflow
-#   - academic-research-skills: claude plugin install "github:Imbad0202/academic-research-skills"
-#   - superpowers:            claude plugin install "github:obra/superpowers"
-#   - karpathy-skills:        claude plugin install "github:forrestchang/andrej-karpathy-skills"
-#   - frontend-design:        claude plugin install "@anthropic/frontend-design"
-#   - skill-creator:          claude plugin install "@anthropic/skill-creator"
+# 3. 在 Claude Code 中安装插件：
+#    /plugin install engineering-workflow
+#    /plugin install "github:Imbad0202/academic-research-skills"
+#    /plugin install "github:obra/superpowers"
+#    /plugin install "github:forrestchang/andrej-karpathy-skills"
+#    /plugin install "@anthropic/frontend-design"
+#    /plugin install "@anthropic/skill-creator"
 
 # 4. Copy commands
 cp -r ~/.claude-sync/commands/* ~/.claude/commands/
