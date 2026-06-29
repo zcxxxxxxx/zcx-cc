@@ -49,7 +49,6 @@ cp ~/.claude-sync/settings.json ~/.claude/settings.json
 | **paper-workflow** | 学术论文全流程：IMRaD 结构指导（含 JCP/JFM 期刊规范）+ 27 项终审检查清单 |
 | **latex-sentence-wrap** | LaTeX 句子换行格式化（一句一行） |
 | **translate-book** | 书籍翻译 skill |
-| **skill-generator** | Skill 生成器 |
 | **hunong-teacher** | 护农教学相关 |
 
 ## Commands
