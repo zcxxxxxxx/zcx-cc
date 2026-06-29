@@ -55,7 +55,7 @@ Body: 工作流 + 规则 + 示例 + 检查清单
 
 Ask the user these questions to gather requirements:
 
-1. **Skill name?** (kebab-case, e.g., `code-reviewer`, `paper-structure-coach`)
+1. **Skill name?** (kebab-case, e.g., `code-reviewer`, `paper-workflow`)
 2. **Trigger description?** (what should Claude match against to auto-trigger this skill)
 3. **Skill type?** (Reference/knowledge injection or Task/workflow)
 4. **Execution mode?** (inline or `context: fork` subagent)

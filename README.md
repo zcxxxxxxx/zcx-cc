@@ -46,8 +46,7 @@ cp ~/.claude-sync/settings.json ~/.claude/settings.json
 | **opencli-browser-automation** | 浏览器自动化（Web 搜索、页面操作、截图），用于信息检索 |
 | **git-pushing** | Git commit/push 工作流，自动生成 conventional commit |
 | **claude-md-maintainer** | CLAUDE.md 创建、审查、维护 |
-| **paper-structure-coach** | 学术论文 IMRaD 结构指导，含 JCP/JFM 期刊规范 |
-| **paper-review-checklist** | 论文 27 项审查清单（拼写、语法、缩写、主被动语态等） |
+| **paper-workflow** | 学术论文全流程：IMRaD 结构指导（含 JCP/JFM 期刊规范）+ 27 项终审检查清单 |
 | **latex-sentence-wrap** | LaTeX 句子换行格式化（一句一行） |
 | **translate-book** | 书籍翻译 skill |
 | **skill-generator** | Skill 生成器 |
