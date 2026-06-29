@@ -8,21 +8,24 @@ Skills, plugins, commands, and settings for Claude Code, synced across machines.
 # 1. Clone
 git clone https://github.com/zcxxxxxxx/zcx-cc.git ~/.claude-sync
 
-# 2. Install plugins
+# 2. Add marketplaces
+claude plugin marketplace add https://github.com/zcxxxxxxx/engineering-workflow-plugin
+
+# 3. Install plugins
+claude plugin install engineering-workflow
 #   - academic-research-skills: claude plugin install "github:Imbad0202/academic-research-skills"
 #   - superpowers:            claude plugin install "github:obra/superpowers"
 #   - karpathy-skills:        claude plugin install "github:forrestchang/andrej-karpathy-skills"
 #   - frontend-design:        claude plugin install "@anthropic/frontend-design"
 #   - skill-creator:          claude plugin install "@anthropic/skill-creator"
-#   - local-tools:            (copy plugins/local/local-tools to ~/.claude/plugins/local/)
 
-# 3. Copy commands
+# 4. Copy commands
 cp -r ~/.claude-sync/commands/* ~/.claude/commands/
 
-# 4. Copy skills
+# 5. Copy skills
 cp -r ~/.claude-sync/skills/* ~/.claude/skills/
 
-# 5. Copy settings (EDIT TOKEN FIRST!)
+# 6. Copy settings (EDIT TOKEN FIRST!)
 cp ~/.claude-sync/settings.json ~/.claude/settings.json
 # Then edit ~/.claude/settings.json → replace YOUR_TOKEN_HERE with your actual token
 ```
@@ -31,18 +34,17 @@ cp ~/.claude-sync/settings.json ~/.claude/settings.json
 
 | Plugin | Version | Source | Purpose |
 |--------|---------|--------|---------|
+| **engineering-workflow** | 1.0.2 | [zcxxxxxxx/engineering-workflow-plugin](https://github.com/zcxxxxxxx/engineering-workflow-plugin) | 三层工程工作流：Loop Engineering + Harness Engineering + Cost-Aware Fast Path + 代码模板 |
 | **academic-research-skills** | 3.9.3 | [Imbad0202/academic-research-skills](https://github.com/Imbad0202/academic-research-skills) (CC-BY-NC-4.0) | 学术论文全周期：研究→写作→审稿→修订。4 skill + 35+ mode + 38-agent 集成 |
 | **superpowers** | 5.1.0 | [obra/superpowers](https://github.com/obra/superpowers) (MIT) | 核心技能库：TDD、debugging、brainstorming、代码审查、plan 编写、并行 agent 调度 |
 | **andrej-karpathy-skills** | 1.0.0 | [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) (MIT) | Karpathy 编码准则：减少 LLM 常见编码错误 |
 | **frontend-design** | — | Anthropic 官方 | 前端 UI/UX 设计与实现 |
 | **skill-creator** | — | Anthropic 官方 | Skill 创建、评测、迭代优化、description 优化 |
-| **local-tools** | — | 本地目录 | 本地工具封装：harness-engineering（由插件系统统一加载） |
 
 ## Custom Skills
 
 | Skill | Purpose |
 |-------|---------|
-| **harness-engineering** | 复杂多步任务的持久化工作流（含 engineering-workflow 插件） |
 | **opencli-browser** | 官方 OpenCLI 浏览器驱动（原自写 opencli-browser-automation 已替换） |
 | **git-pushing** | Git commit/push 工作流，自动生成 conventional commit |
 | **claude-md-maintainer** | CLAUDE.md 创建、审查、维护 |
